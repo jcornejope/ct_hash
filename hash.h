@@ -1,5 +1,29 @@
 #pragma once
 
+/*
+MIT License
+
+Copyright(c) 2020 Jaime Cornejo
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this softwareand associated documentation files(the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions :
+
+The above copyright noticeand this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 #include <cstddef>
 
 using h32 = unsigned int;
@@ -26,7 +50,7 @@ namespace ctHash_Internal
 
     h32 fnv1a_32( void const* bytes, std::size_t const num_bytes, h32 hash = FNV_OFFSET_BASIS_32 )
     {
-        char const* bytes8 = reinterpret_cast<char const*>( bytes );
+        unsigned char const* bytes8 = reinterpret_cast<unsigned char const*>( bytes );
         for( std::size_t i = 0; i < num_bytes; ++i )
             hash = fnv1a_32( bytes8[i], hash );
 
@@ -59,7 +83,7 @@ namespace ctHash_Internal
 
     h64 fnv1a_64( void const* bytes, std::size_t const num_bytes, h64 hash = FNV_OFFSET_BASIS_64 )
     {
-        char const* bytes8 = reinterpret_cast<char const*>( bytes );
+        unsigned char const* bytes8 = reinterpret_cast<unsigned char const*>( bytes );
         for( std::size_t i = 0; i < num_bytes; ++i )
             hash = fnv1a_64( bytes8[i], hash );
 
@@ -110,7 +134,7 @@ constexpr h64 create_hash_64<char const>( char const* string )
 template<>
 constexpr h64 create_hash_64<char>( char* string ) { return create_hash_64<char const>( string ); }
 
-// Literals
+// User-defined Literals
 h32 operator"" _h32( long double d )                                    { return create_hash_32( d ); }
 h32 operator"" _h32( unsigned long long n )                             { return create_hash_32( n ); }
 constexpr h32 operator"" _h32( char c )                                 { return ctHash_Internal::fnv1a_32( c ); }
