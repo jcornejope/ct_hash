@@ -32,7 +32,7 @@ using h64 = unsigned long long;
 constexpr h32 INVALID_HASH_32 = 0u;
 constexpr h64 INVALID_HASH_64 = 0ull;
 
-namespace ctHash_Internal
+namespace ct_hash_internal
 {
     // FNV Hash 32 bit
     constexpr h32 FNV_PRIME_32 = 0x1000193;
@@ -101,21 +101,21 @@ constexpr h64 create_hash_64( T* const value );
 template<typename T>
 h32 create_hash_32( T const value )
 {
-    return ctHash_Internal::fnv1a_32( &value, sizeof( value ), ctHash_Internal::FNV_OFFSET_BASIS_32 );
+    return ct_hash_internal::fnv1a_32( &value, sizeof( value ), ct_hash_internal::FNV_OFFSET_BASIS_32 );
 }
 
 template<typename T>
 h64 create_hash_64( T const value )
 {
-    return ctHash_Internal::fnv1a_64( &value, sizeof( value ), ctHash_Internal::FNV_OFFSET_BASIS_64 );
+    return ct_hash_internal::fnv1a_64( &value, sizeof( value ), ct_hash_internal::FNV_OFFSET_BASIS_64 );
 }
 
 template<>
 constexpr h32 create_hash_32<char const>( char const* string )
 {
-    h32 ret = ctHash_Internal::FNV_OFFSET_BASIS_32;
+    h32 ret = ct_hash_internal::FNV_OFFSET_BASIS_32;
     while ( *string != '\0' )
-        ret = ctHash_Internal::fnv1a_32( *string++, ret );
+        ret = ct_hash_internal::fnv1a_32( *string++, ret );
     return ret;
 }
 
@@ -125,9 +125,9 @@ constexpr h32 create_hash_32<char>( char* string ) { return create_hash_32<char 
 template<>
 constexpr h64 create_hash_64<char const>( char const* string )
 {
-    h64 ret = ctHash_Internal::FNV_OFFSET_BASIS_64;
+    h64 ret = ct_hash_internal::FNV_OFFSET_BASIS_64;
     while ( *string != '\0' )
-        ret = ctHash_Internal::fnv1a_64( *string++, ret );
+        ret = ct_hash_internal::fnv1a_64( *string++, ret );
     return ret;
 }
 
@@ -137,13 +137,13 @@ constexpr h64 create_hash_64<char>( char* string ) { return create_hash_64<char 
 // User-defined Literals
 h32 operator"" _h32( long double d )                                    { return create_hash_32( d ); }
 h32 operator"" _h32( unsigned long long n )                             { return create_hash_32( n ); }
-constexpr h32 operator"" _h32( char c )                                 { return ctHash_Internal::fnv1a_32( c ); }
-constexpr h32 operator"" _h32( char const* string )                     { return ( string[0] == '\0' ) ? INVALID_HASH_32 : ctHash_Internal::fnv1a_32( string ); }
-constexpr h32 operator"" _h32( char const* string, std::size_t size )   { return ( size == 0 ) ? INVALID_HASH_32 : ctHash_Internal::fnv1a_32( string ); }
+constexpr h32 operator"" _h32( char c )                                 { return ct_hash_internal::fnv1a_32( c ); }
+constexpr h32 operator"" _h32( char const* string )                     { return ( string[0] == '\0' ) ? INVALID_HASH_32 : ct_hash_internal::fnv1a_32( string ); }
+constexpr h32 operator"" _h32( char const* string, std::size_t size )   { return ( size == 0 ) ? INVALID_HASH_32 : ct_hash_internal::fnv1a_32( string ); }
 
 h64 operator"" _h64( long double d )                                    { return create_hash_64( d ); }
 h64 operator"" _h64( unsigned long long n )                             { return create_hash_64( n ); }
-constexpr h64 operator"" _h64( char c )                                 { return ctHash_Internal::fnv1a_64( c ); }
-constexpr h64 operator"" _h64( char const* string )                     { return ( string[0] == '\0' ) ? INVALID_HASH_64 : ctHash_Internal::fnv1a_64( string ); }
-constexpr h64 operator"" _h64( char const* string, std::size_t size )   { return ( size == 0 ) ? INVALID_HASH_64 : ctHash_Internal::fnv1a_64( string ); }
+constexpr h64 operator"" _h64( char c )                                 { return ct_hash_internal::fnv1a_64( c ); }
+constexpr h64 operator"" _h64( char const* string )                     { return ( string[0] == '\0' ) ? INVALID_HASH_64 : ct_hash_internal::fnv1a_64( string ); }
+constexpr h64 operator"" _h64( char const* string, std::size_t size )   { return ( size == 0 ) ? INVALID_HASH_64 : ct_hash_internal::fnv1a_64( string ); }
 

@@ -6,7 +6,7 @@ The main use of this simple library is to provide a **compile time solution for 
 The library supports **32 and 64 bit** hashes. 
 
 ~~~
-auto const str = create_hash_64( "YourString" );
+constexpr auto str = create_hash_64( "YourString" );
 auto const arg1 = create_hash_32( argv[1] );
 ~~~
 
